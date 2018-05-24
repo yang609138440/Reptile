@@ -16,8 +16,8 @@ while($fileName = readdir($handle)){
 	array_push($filePathArr,$filePath);
 }
 
-
-echo "开始汇总".PHP_EOL;
+$co = count($filePathArr);
+echo "开始汇总,一共{$co}个文件".PHP_EOL;
 $newFile = fopen('../Data/all/all.csv','w');
 fwrite($newFile, "排名,名称,网址1,网址2".PHP_EOL);
 foreach ($filePathArr as $key => $filePath) {

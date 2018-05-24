@@ -6,10 +6,14 @@ require_once "./parse.php";
 require_once "./page.php";
 require_once './fakeData.php';
 
-set_time_limit(0);
+date_default_timezone_set("PRC");
 
-$from = 901;
-$to = 1000;
+set_time_limit(0);
+if(count($argv)<3){
+	echo "参数错误".PHP_EOL;die;
+}
+$from = intval($argv[1]);
+$to = intval($argv[2]);
 
 for($i = $from; $i<$to+1; $i++){
 	$fileName = "page_{$i}_urls.csv";
@@ -17,9 +21,13 @@ for($i = $from; $i<$to+1; $i++){
 	$filePath = "./pageData/{$fileName}";
 	$dataArr = getUrlFromFile($filePath);
 	foreach ($dataArr as $key => $data) {
-		getUserEmailByUrl($data[0],$data[1]);
-		$rand = rand(7,12);
-		echo "休眠{$rand}秒  .zZ".PHP_EOL;
+		if(count($data)==2){
+			getUserEmailByUrl($data[0],$data[1]);
+		}elseif(count($data)==3){
+			getUserEmailByUrl($data[0],$data[1].','.$data[2]);
+		}
+		$rand = rand(5,10);
+		echo date('Y-m-d H:i:s',time())."   休眠{$rand}秒  .zZ".PHP_EOL;
 		sleep($rand);
 	}
 }
